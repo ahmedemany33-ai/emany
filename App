@@ -1,0 +1,375 @@
+import { useState } from 'react'
+import './App.css'
+
+function App() {
+  const [language, setLanguage] = useState('en')
+  const [showLogin, setShowLogin] = useState(false)
+  const [showSignup, setShowSignup] = useState(false)
+  const [cart, setCart] = useState([])
+
+  const isArabic = language === 'ar'
+  const dir = isArabic ? 'rtl' : 'ltr'
+
+  const translations = {
+    en: {
+      brand: 'Emany',
+      tagline: 'The Market Leader in SMM Services',
+      description: 'Looking for the cheapest SMM panel with high-quality services? Emany offers powerful tools for resellers who want to scale fast.',
+      signIn: 'Sign In',
+      signUp: 'Sign Up',
+      services: 'Services',
+      api: 'API',
+      blog: 'Blog',
+      contact: 'Contact',
+      phone: '01097799259',
+      
+      // Features
+      highQuality: 'High Quality',
+      highQualityDesc: 'We always strive to provide the best services possible.',
+      multiPayment: 'Multiple Payment Options',
+      multiPaymentDesc: 'We offer various options to add funds to your account.',
+      lowPrices: 'Low Prices',
+      lowPricesDesc: 'All services offered on our panel are super affordable.',
+      fastDelivery: 'Fast Delivery',
+      fastDeliveryDesc: 'We provide automated order processing on our panel.',
+      
+      // Services
+      instagram: 'Instagram',
+      tiktok: 'TikTok',
+      facebook: 'Facebook',
+      youtube: 'YouTube',
+      twitter: 'Twitter',
+      telegram: 'Telegram',
+      
+      followers: 'Followers',
+      likes: 'Likes',
+      views: 'Views',
+      comments: 'Comments',
+      shares: 'Shares',
+      subscribers: 'Subscribers',
+      
+      // Stats
+      ordersCompleted: 'Orders Completed',
+      activeUsers: 'Active Users',
+      countries: 'Countries Served',
+      
+      // CTA
+      getStarted: 'Get Started Now',
+      learnMore: 'Learn More',
+      orderNow: 'Order Now',
+      
+      // Footer
+      copyright: '© 2024 Emany. All Rights Reserved.',
+      terms: 'Terms of Service',
+      privacy: 'Privacy Policy',
+      followUs: 'Follow Us',
+    },
+    ar: {
+      brand: 'إيماني',
+      tagline: 'الرائد في خدمات التسويق الرقمي',
+      description: 'هل تبحث عن أرخص لوحة تسويق وسائل التواصل بخدمات عالية الجودة؟ إيماني توفر أدوات قوية لمن يريد التوسع بسرعة.',
+      signIn: 'دخول',
+      signUp: 'إنشاء حساب',
+      services: 'الخدمات',
+      api: 'API',
+      blog: 'المدونة',
+      contact: 'اتصل بنا',
+      phone: '01097799259',
+      
+      // Features
+      highQuality: 'جودة عالية',
+      highQualityDesc: 'نسعى دائماً لتقديم أفضل الخدمات الممكنة.',
+      multiPayment: 'خيارات دفع متعددة',
+      multiPaymentDesc: 'نوفر خيارات مختلفة لإضافة رصيد إلى حسابك.',
+      lowPrices: 'أسعار منخفضة',
+      lowPricesDesc: 'جميع الخدمات المقدمة على لوحتنا بأسعار في متناول الجميع.',
+      fastDelivery: 'توصيل سريع',
+      fastDeliveryDesc: 'نوفر معالجة آلية للطلبات على لوحتنا.',
+      
+      // Services
+      instagram: 'إنستجرام',
+      tiktok: 'تيك توك',
+      facebook: 'فيسبوك',
+      youtube: 'يوتيوب',
+      twitter: 'تويتر',
+      telegram: 'تيليجرام',
+      
+      followers: 'متابعون',
+      likes: 'إعجابات',
+      views: 'مشاهدات',
+      comments: 'تعليقات',
+      shares: 'مشاركات',
+      subscribers: 'مشتركون',
+      
+      // Stats
+      ordersCompleted: 'طلبات مكتملة',
+      activeUsers: 'مستخدمون نشطون',
+      countries: 'دول مخدومة',
+      
+      // CTA
+      getStarted: 'ابدأ الآن',
+      learnMore: 'تعرف على المزيد',
+      orderNow: 'اطلب الآن',
+      
+      // Footer
+      copyright: '© 2024 إيماني. جميع الحقوق محفوظة.',
+      terms: 'شروط الخدمة',
+      privacy: 'سياسة الخصوصية',
+      followUs: 'تابعنا',
+    }
+  }
+
+  const t = translations[language]
+
+  const services = [
+    { platform: t.instagram, icon: '📷', services: [
+      { name: t.followers, price: '$0.99', desc: '100-500 followers' },
+      { name: t.likes, price: '$0.49', desc: '10-100 likes' },
+      { name: t.views, price: '$0.29', desc: '100-1000 views' },
+      { name: t.comments, price: '$1.99', desc: '10-50 comments' },
+    ]},
+    { platform: t.tiktok, icon: '🎵', services: [
+      { name: t.followers, price: '$1.49', desc: '100-500 followers' },
+      { name: t.likes, price: '$0.59', desc: '100-1000 likes' },
+      { name: t.views, price: '$0.39', desc: '1000-10000 views' },
+      { name: t.comments, price: '$2.49', desc: '10-50 comments' },
+    ]},
+    { platform: t.facebook, icon: '👍', services: [
+      { name: t.followers, price: '$0.89', desc: '50-200 followers' },
+      { name: t.likes, price: '$0.39', desc: '10-100 likes' },
+      { name: t.views, price: '$0.19', desc: '100-500 views' },
+      { name: t.shares, price: '$2.99', desc: '5-20 shares' },
+    ]},
+    { platform: t.youtube, icon: '▶️', services: [
+      { name: t.subscribers, price: '$2.99', desc: '50-200 subscribers' },
+      { name: t.views, price: '$0.49', desc: '1000-5000 views' },
+      { name: t.likes, price: '$0.79', desc: '50-200 likes' },
+      { name: t.comments, price: '$3.49', desc: '5-20 comments' },
+    ]},
+    { platform: t.twitter, icon: '𝕏', services: [
+      { name: t.followers, price: '$1.29', desc: '100-500 followers' },
+      { name: t.likes, price: '$0.69', desc: '50-200 likes' },
+      { name: t.views, price: '$0.49', desc: '1000-5000 views' },
+      { name: t.shares, price: '$2.49', desc: '10-50 shares' },
+    ]},
+    { platform: t.telegram, icon: '✈️', services: [
+      { name: t.followers, price: '$1.99', desc: '100-500 followers' },
+      { name: t.views, price: '$0.59', desc: '1000-5000 views' },
+      { name: t.likes, price: '$0.99', desc: '100-500 likes' },
+      { name: t.comments, price: '$2.99', desc: '10-50 comments' },
+    ]},
+  ]
+
+  return (
+    <div dir={dir} className={`app ${isArabic ? 'rtl' : 'ltr'}`}>
+      {/* Navigation */}
+      <nav className="navbar">
+        <div className="nav-container">
+          <div className="nav-brand">
+            <span className="brand-icon">🚀</span>
+            <span className="brand-name">{t.brand}</span>
+          </div>
+          
+          <div className="nav-links">
+            <a href="#services">{t.services}</a>
+            <a href="#contact">{t.contact}</a>
+          </div>
+
+          <div className="nav-actions">
+            <button className="lang-btn" onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}>
+              {language === 'en' ? 'العربية' : 'English'}
+            </button>
+            <button className="btn-secondary" onClick={() => setShowLogin(true)}>{t.signIn}</button>
+            <button className="btn-primary" onClick={() => setShowSignup(true)}>{t.signUp}</button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-content">
+          <h1 className="hero-title">
+            {isArabic ? 'لوحة تسويق وسائل التواصل الاجتماعي' : 'SMM Panel Provider'}
+          </h1>
+          <p className="hero-subtitle">{t.tagline}</p>
+          <p className="hero-description">{t.description}</p>
+          
+          <div className="hero-buttons">
+            <button className="btn-primary-large" onClick={() => setShowSignup(true)}>{t.getStarted}</button>
+            <button className="btn-secondary-large" onClick={() => document.getElementById('services').scrollIntoView({behavior: 'smooth'})}>{t.learnMore}</button>
+          </div>
+        </div>
+
+        <div className="hero-visual">
+          <div className="gradient-box"></div>
+          <div className="floating-card">
+            <div className="card-icon">📊</div>
+            <p>{isArabic ? 'لوحة تحكم متقدمة' : 'Advanced Dashboard'}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="features">
+        <h2>{isArabic ? 'لماذا تختار إيماني؟' : 'Why Choose Emany?'}</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon">🏆</div>
+            <h3>{t.highQuality}</h3>
+            <p>{t.highQualityDesc}</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">💳</div>
+            <h3>{t.multiPayment}</h3>
+            <p>{t.multiPaymentDesc}</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">💰</div>
+            <h3>{t.lowPrices}</h3>
+            <p>{t.lowPricesDesc}</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">⚡</div>
+            <h3>{t.fastDelivery}</h3>
+            <p>{t.fastDeliveryDesc}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="services" id="services">
+        <h2>{isArabic ? 'خدماتنا الشاملة' : 'Our Complete Services'}</h2>
+        <div className="services-container">
+          {services.map((service, idx) => (
+            <div key={idx} className="service-platform">
+              <div className="platform-header">
+                <span className="platform-icon">{service.icon}</span>
+                <h3>{service.platform}</h3>
+              </div>
+              <div className="platform-services">
+                {service.services.map((svc, sidx) => (
+                  <div key={sidx} className="service-item">
+                    <div className="service-info">
+                      <p className="service-name">{svc.name}</p>
+                      <p className="service-desc">{svc.desc}</p>
+                    </div>
+                    <div className="service-footer">
+                      <span className="service-price">{svc.price}</span>
+                      <button className="btn-service">{t.orderNow}</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="stats">
+        <div className="stat-item">
+          <div className="stat-number">150M+</div>
+          <p>{t.ordersCompleted}</p>
+        </div>
+        <div className="stat-item">
+          <div className="stat-number">50K+</div>
+          <p>{t.activeUsers}</p>
+        </div>
+        <div className="stat-item">
+          <div className="stat-number">195+</div>
+          <p>{t.countries}</p>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="contact" id="contact">
+        <h2>{isArabic ? 'تواصل معنا' : 'Get In Touch'}</h2>
+        <div className="contact-content">
+          <div className="contact-info">
+            <div className="contact-item">
+              <span className="contact-icon">📱</span>
+              <div>
+                <p>{isArabic ? 'رقم الهاتف' : 'Phone'}</p>
+                <a href="tel:01097799259">{t.phone}</a>
+              </div>
+            </div>
+            <div className="contact-item">
+              <span className="contact-icon">💬</span>
+              <div>
+                <p>{isArabic ? 'الدعم الفوري' : '24/7 Support'}</p>
+                <p>{isArabic ? 'فريقنا جاهز لمساعدتك' : 'Our team is ready to help'}</p>
+              </div>
+            </div>
+            <div className="contact-item">
+              <span className="contact-icon">⚡</span>
+              <div>
+                <p>{isArabic ? 'سرعة الخدمة' : 'Fast Service'}</p>
+                <p>{isArabic ? 'توصيل فوري للطلبات' : 'Instant delivery'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-section">
+            <h4>{t.brand}</h4>
+            <p>{isArabic ? 'منصة موثوقة لخدمات التسويق الرقمي' : 'Your trusted SMM platform'}</p>
+          </div>
+          <div className="footer-section">
+            <h4>{isArabic ? 'روابط سريعة' : 'Quick Links'}</h4>
+            <ul>
+              <li><a href="#services">{t.services}</a></li>
+              <li><a href="#contact">{t.contact}</a></li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>{isArabic ? 'قانوني' : 'Legal'}</h4>
+            <ul>
+              <li><a href="#terms">{t.terms}</a></li>
+              <li><a href="#privacy">{t.privacy}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>{t.copyright}</p>
+        </div>
+      </footer>
+
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="modal-overlay" onClick={() => setShowLogin(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowLogin(false)}>✕</button>
+            <h2>{t.signIn}</h2>
+            <form onSubmit={(e) => {e.preventDefault(); alert('Demo Mode')}}>
+              <input type="email" placeholder={isArabic ? 'البريد الإلكتروني' : 'Email'} required />
+              <input type="password" placeholder={isArabic ? 'كلمة المرور' : 'Password'} required />
+              <button type="submit" className="btn-primary-large">{t.signIn}</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Signup Modal */}
+      {showSignup && (
+        <div className="modal-overlay" onClick={() => setShowSignup(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowSignup(false)}>✕</button>
+            <h2>{t.signUp}</h2>
+            <form onSubmit={(e) => {e.preventDefault(); alert('Demo Mode')}}>
+              <input type="text" placeholder={isArabic ? 'اسم المستخدم' : 'Username'} required />
+              <input type="email" placeholder={isArabic ? 'البريد الإلكتروني' : 'Email'} required />
+              <input type="password" placeholder={isArabic ? 'كلمة المرور' : 'Password'} required />
+              <button type="submit" className="btn-primary-large">{t.signUp}</button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default App
